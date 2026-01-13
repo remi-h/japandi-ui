@@ -1,4 +1,5 @@
 import type * as React from "react"
+import { Link } from "@tanstack/react-router"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
@@ -58,18 +59,56 @@ function Header({
   )
 }
 
+const headerTitleVariants = cva(
+  "text-lg font-semibold tracking-tight",
+  {
+    variants: {
+      asLink: {
+        true: "hover:opacity-80 transition-opacity cursor-pointer",
+        false: "",
+      },
+    },
+    defaultVariants: {
+      asLink: false,
+    },
+  }
+)
+
+type HeaderTitleProps = React.ComponentProps<"div"> & {
+  link?: never
+}
+
+type HeaderTitleLinkProps = Omit<React.ComponentProps<typeof Link>, "to"> & {
+  link: string
+}
+
 function HeaderTitle({
   className,
+  link,
   ...props
-}: React.ComponentProps<"div">) {
+}: HeaderTitleProps | HeaderTitleLinkProps) {
+  if (link) {
+    return (
+      <Link
+        data-slot="header-title"
+        to={link}
+        className={cn(
+          headerTitleVariants({ asLink: true }),
+          className
+        )}
+        {...(props as Omit<React.ComponentProps<typeof Link>, "to">)}
+      />
+    )
+  }
+
   return (
     <div
       data-slot="header-title"
       className={cn(
-        "text-lg font-semibold tracking-tight",
+        headerTitleVariants({ asLink: false }),
         className
       )}
-      {...props}
+      {...(props as React.ComponentProps<"div">)}
     />
   )
 }
@@ -82,7 +121,7 @@ function HeaderActions({
     <div
       data-slot="header-actions"
       className={cn(
-        "flex items-center gap-2",
+        "flex items-center gap-1",
         className
       )}
       {...props}
@@ -90,5 +129,5 @@ function HeaderActions({
   )
 }
 
-export { Header, HeaderTitle, HeaderActions, headerVariants }
+export { Header, HeaderTitle, HeaderActions, headerVariants, headerTitleVariants }
 
