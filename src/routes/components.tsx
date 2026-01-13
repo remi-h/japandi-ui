@@ -91,7 +91,7 @@ function Components() {
       }
       : {
         accentId: "tokyo-tower-orange",
-        secondaryId: "oslo-fjord-teal",
+        secondaryId: "sapporo-frost-gray",
         backgroundId: "stockholm-snow-white",
         surfaceId: "hakone-mist-gray",
       }
@@ -114,17 +114,16 @@ function Components() {
   } as CSSProperties
 
   return (
-    <div className="min-h-screen">
+    <div>
       <Header />
       <div className="bg-background text-foreground" style={themeStyle}>
         <Container>
+          <h1 className="text-3xl mb-2 font-semibold">Components</h1>
+          <p className="text-sm text-muted-foreground">
+            Browse all available components in the Japandi UI design system.
+          </p>
+
           <div className="space-y-12 py-8 pb-28">
-            <div>
-              <h1 className="text-4xl font-bold mb-2">Components</h1>
-              <p className="text-muted-foreground">
-                Browse all available components in the Japandi UI design system.
-              </p>
-            </div>
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold">Palette</h2>

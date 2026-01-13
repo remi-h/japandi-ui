@@ -10,13 +10,11 @@ function App() {
     <>
       <Header />
       <Container size="xl" padding="lg">
-        <div className="mb-6 max-w-2xl">
-          <h1 className="text-3xl font-semibold">Welcome to Japandi UI</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Visit the components page to explore the palette controls and UI
-            previews.
-          </p>
-        </div>
+        <h1 className="text-3xl mb-2 font-semibold">Welcome to Japandi UI</h1>
+        <p className="text-sm text-muted-foreground">
+          Visit the components page to explore the palette controls and UI
+          previews.
+        </p>
       </Container>
     </>
   )
