@@ -1,10 +1,31 @@
 {
-  "name": "japandi-ui",
-  "private": true,
+  "name": "@remih/japandi-ui",
+  "version": "0.1.0",
+  "private": false,
   "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./src/styles.css"
+  },
+  "files": [
+    "dist",
+    "src/styles.css"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "dev": "vite dev --port 3000",
     "build": "vite build",
+    "build:lib": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "prepublishOnly": "npm run build:lib",
     "serve": "vite preview",
     "test": "vitest run",
     "format": "biome format",
@@ -55,9 +76,14 @@
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.4",
     "jsdom": "^27.0.0",
+    "tsup": "^8.5.1",
     "typescript": "^5.7.2",
     "vite": "^7.3.1",
     "vitest": "^3.0.5",
     "web-vitals": "^5.1.0"
+  },
+  "peerDependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   }
 }
