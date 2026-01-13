@@ -1,4 +1,5 @@
 import type * as React from "react"
+import { Link } from "@tanstack/react-router"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -18,7 +19,10 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
+      },
+      active: {
+        true: "bg-accent text-accent-foreground",
+        false: "",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -36,23 +40,46 @@ const buttonVariants = cva(
   }
 )
 
+type ButtonProps = React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean
+    link?: never
+  }
+
+type ButtonLinkProps = Omit<React.ComponentProps<typeof Link>, "to"> &
+  VariantProps<typeof buttonVariants> & {
+    link: string
+    asChild?: never
+    active?: boolean
+  }
+
 function Button({
   className,
   variant,
   size,
   asChild = false,
+  link,
+  active,
   ...props
-}: React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-  }) {
+}: ButtonProps | ButtonLinkProps) {
+  if (link) {
+    return (
+      <Link
+        data-slot="button"
+        to={link}
+        className={cn(buttonVariants({ variant, size, active, className }))}
+        {...(props as Omit<React.ComponentProps<typeof Link>, "to">)}
+      />
+    )
+  }
+
   const Comp = asChild ? Slot : "button"
 
   return (
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
+      {...(props as React.ComponentProps<"button">)}
     />
   )
 }
